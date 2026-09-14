@@ -17,23 +17,24 @@ def save_entry(time, topic, minutes):
     with open("log.txt", "a") as f:
         f.write(f"{time} | {topic} | {minutes}\n")
 def total_minutes():
-    total = 0
+    with open("log.txt", "r") as f:
+        return sum_minutes(f.read())
+def read_log():
     with open("log.txt", "r") as f:
         content = f.read()
+    print(content) 
+def sum_minutes(content):
+    total = 0
     for line in content.split("\n"):
         if line.strip() == "":
             continue
         parts = line.split("|")
         total += int(parts[2])
-    return total
-def read_log():
-    with open("log.txt", "r") as f:
-        content = f.read()
-    print(content)      
+    return total     
 
-time = date.today()
-topic = get_topic()
-minutes = germinate()
-read_log()
-save_entry(time, topic, minutes)
-print("Total minutes:", total_minutes())
+if __name__ == "__main__":
+    time = date.today()
+    topic = get_topic()
+    minutes = germinate()
+    save_entry(time, topic, minutes)
+    print("Total minutes:", total_minutes())
